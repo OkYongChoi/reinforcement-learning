@@ -9,11 +9,6 @@ import torch.nn.functional as F
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print('device: ', device)
 
-# Code based on: 
-# Implementation of Twin Delayed Deep Deterministic Policy Gradients (TD3)
-# https://github.com/sfujim/TD3/blob/master/TD3.py
-# Paper: https://arxiv.org/abs/1802.09477
-
 # Actor Neural Network
 class Actor(nn.Module):
     def __init__(self, state_dim, action_dim, max_action):
@@ -172,14 +167,14 @@ class TD3Agent(object):
                     target_param.data.copy_(tau * param.data + (1 - tau) * target_param.data)
     
      # save(agent = agent, filename='checkpnt, directory = 'dir_chkpoint')     
-    def save(self, filename, directory):
-        torch.save(self.actor.state_dict(), '%s/%s_actor.pth' % (directory, filename))
-        torch.save(self.critic.state_dict(), '%s/%s_critic.pth' % (directory, filename))
-        torch.save(self.actor_target.state_dict(), '%s/%s_actor_t.pth' % (directory, filename))
-        torch.save(self.critic_target.state_dict(), '%s/%s_critic_t.pth' % (directory, filename))
+    def save(self, directory, filename):
+        torch.save(self.actor.state_dict(), f'{directory}/{filename}_actor.pth')
+        torch.save(self.critic.state_dict(), f'{directory}/{filename}_critic.pth')
+        torch.save(self.actor_target.state_dict(), f'{directory}/{filename}_actor_t.pth')
+        torch.save(self.critic_target.state_dict(), f'{directory}/{filename}_critic_t.pth')
 
-    def load(self, filename, directory):
-        self.actor.load_state_dict(torch.load('%s/%s_actor.pth' % (directory, filename)))
-        self.critic.load_state_dict(torch.load('%s/%s_critic.pth' % (directory, filename)))
-        self.actor_target.load_state_dict(torch.load('%s/%s_actor_t.pth' % (directory, filename)))
-        self.critic_target.load_state_dict(torch.load('%s/%s_critic_t.pth' % (directory, filename)))
+    def load(self, directory, filename):
+        self.actor.load_state_dict(torch.load(f'{directory}/{filename}_actor.pth'))
+        self.critic.load_state_dict(torch.load(f'{directory}/{filename}_critic.pth'))
+        self.actor_target.load_state_dict(torch.load(f'{directory}/{filename}_actor_t.pth'))
+        self.critic_target.load_state_dict(torch.load(f'{directory}/{filename}_critic_t.pth'))

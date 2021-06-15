@@ -32,10 +32,10 @@ print('start_dim: ', state_dim, ', action_dim: ', action_dim)
 print('max_action: ', max_action, ', threshold: ', threshold, ', std_noise: ', std_noise)
 
 agent = TD3Agent(state_dim, action_dim, max_action)
-agent.load('chpnt_ts2500', 'Walker2DBulletEnv')
+agent.load('dir_Walker2D_002', 'td3_best', )
 
 def play(env, agent, n_episodes):
-    scores_deque = deque(maxlen=100)
+    scores_deque = deque(maxlen=10)
     scores = []
 
     for i_episode in range(1, n_episodes+1):
@@ -60,4 +60,4 @@ def play(env, agent, n_episodes):
         print('Episode {}\tAverage Score: {:.2f},\tScore: {:.2f} \tTime: {:02}:{:02}:{:02}'\
                   .format(i_episode, np.mean(scores_deque), score, s//3600, s%3600//60, s%60))  
 
-play(env=env, agent=agent, n_episodes=7)
+play(env=env, agent=agent, n_episodes=5)
