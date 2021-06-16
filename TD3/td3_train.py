@@ -16,7 +16,7 @@ from collections import deque
 
 start_timestep=1e4
 
-std_noise=0.04
+std_noise=0.02
 
 env = gym.make('Walker2DBulletEnv-v0')
 env.render()
@@ -39,7 +39,7 @@ print('max_action: ', max_action, ', threshold: ', threshold, ', std_noise: ', s
 agent = TD3Agent(state_dim, action_dim, max_action)
 
 # Twin Delayed Deep Deterministic (TD3) policy gradient algorithm
-def td3_train(n_episodes=10000, save_every=10, print_env=10):
+def td3_train(n_episodes=10000, print_env=10):
 
     scores_deque = deque(maxlen=10)
     scores_array = []
@@ -97,7 +97,7 @@ def td3_train(n_episodes=10000, save_every=10, print_env=10):
         avg_scores_array.append(avg_score)
         if total_reward > best_score:
             best_score = total_reward
-            agent.save('dir_Walker2D_002', 'td3_best')
+            agent.save('Walker2D_3_std002', 'td3_best')
 
         # train_by_episode(time_start, i_episode) 
         s = (int)(time.time() - time_start)
@@ -118,7 +118,7 @@ def td3_train(n_episodes=10000, save_every=10, print_env=10):
 
 scores, avg_scores = td3_train()
 
-agent.save('dir_Walker2D_002', 'td3_last')
+agent.save('Walker2D_3_std002', 'td3_last')
 writer.flush()
 writer.close()
 
